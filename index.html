@@ -312,24 +312,21 @@ function startLoveRain() {
 
         love.innerHTML = wishes[Math.floor(Math.random() * wishes.length)];
         
-        // --- MODIFIED CENTER LOGIC ---
-        // Instead of 0 to 100, we do 20 to 80.
-        // Math.random() * 60 gives 0-60. 
-        // + 20 shifts it to start at 20.
-        // Result: 20vw to 80vw (Mostly Center)
+        // Center of screen (20vw to 80vw)
         love.style.left = Math.random() * 60 + 20 + "vw";
         
-        // --- MODIFIED SIZE LOGIC ---
-        // Random between 12px and 22px (Smaller than before)
+        // Small font size (12px to 22px)
         love.style.fontSize = (12 + Math.random() * 10) + "px";
         
-        love.style.animationDuration = (3 + Math.random() * 3) + "s";
+        // --- CHANGED HERE: SLOWER SPEED ---
+        // Range is now 6 seconds to 10 seconds (was 3 to 6)
+        love.style.animationDuration = (6 + Math.random() * 4) + "s";
         
         document.body.appendChild(love);
 
         setTimeout(function() {
             love.remove();
-        }, 6000);
+        }, 10000); // Increased cleanup time since animation is longer
     }, 300);
 }
 
