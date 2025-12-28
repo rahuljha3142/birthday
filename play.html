@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday Bestie 🎂💖</title>
+
+<style>
+/* --- BASE STYLES --- */
+body{
+    margin:0;
+    height:100vh;
+    height: 100dvh; /* Dynamic Viewport Height for mobile browsers */
+    background: linear-gradient(135deg,#ff0080,#7928ca,#2afadf,#ffdd00);
+    background-size:400% 400%;
+    animation:bg 10s infinite alternate;
+    overflow:hidden;
+    font-family:'Poppins',sans-serif;
+    color:white;
+}
+@keyframes bg{
+    0%{background-position:0% 50%}
+    100%{background-position:100% 50%}
+}
+
+/* Fireworks Canvas */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+/* --- RESPONSIVE CARD --- */
+.card{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:90%;
+    max-width:400px;
+    /* Glassmorphism */
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,0.35),
+        rgba(255,255,255,0.15)
+    );
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius:28px;
+    padding: 20px;
+    text-align:center;
+    box-shadow:
+        0 0 25px rgba(255,255,255,0.6),
+        0 0 60px rgba(255,0,128,0.6);
+    animation:pop 1.6s ease;
+    z-index: 10;
+    
+    /* Flexbox for better vertical stacking on small phones */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes pop{
+    from{opacity:0;transform:translate(-50%,-50%) scale(.5)}
+    to{opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+
+h1{
+    font-size: clamp(24px, 5vw, 30px); /* Scales between 24px and 30px */
+    margin: 5px 0;
+    background:linear-gradient(90deg,#fff,#ffe066,#ff4d6d);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:glow 1.5s infinite alternate;
+}
+@keyframes glow{
+    from{text-shadow:0 0 10px #fff}
+    to{text-shadow:0 0 30px #ffd6e0}
+}
+
+h2{
+    font-size: clamp(18px, 4vw, 22px);
+    color:#ffe5f1;
+    margin: 0 0 10px 0;
+}
+
+p{
+    font-size: clamp(13px, 3.5vw, 15px);
+    line-height:1.5;
+    margin: 10px 0;
+}
+
+/* --- RESPONSIVE PHOTO --- */
+.photo-box{
+    margin: 10px auto;
+    /* This ensures the photo shrinks on small screens */
+    width: clamp(120px, 25vh, 180px); 
+    height: clamp(120px, 25vh, 180px);
+    border-radius:50%;
+    padding:5px;
+    background: linear-gradient(45deg,#ffdd00,#ff0080,#2afadf);
+    box-shadow:0 0 25px rgba(255,255,255,0.8);
+    animation:photoGlow 2s infinite alternate;
+    flex-shrink: 0; /* Prevents squishing */
+}
+.photo-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+    border:4px solid rgba(255,255,255,0.9);
+}
+@keyframes photoGlow{
+    from{box-shadow:0 0 15px #fff}
+    to{box-shadow:0 0 35px #ffb3c6}
+}
+
+/* --- CAKE --- */
+.cake{
+    font-size: clamp(50px, 10vh, 80px); /* Shrinks cake on short screens */
+    position:relative;
+    margin: 5px 0;
+    line-height: 1;
+}
+.flame{
+    position:absolute;
+    top: -40%;
+    left:50%;
+    transform:translateX(-50%);
+    font-size: 0.4em; /* Relative to cake size */
+    animation:flicker .6s infinite alternate;
+}
+@keyframes flicker{
+    from{opacity:1}
+    to{opacity:.4;transform:scale(1.2)}
+}
+
+/* --- BUTTON --- */
+button{
+    margin-top: 10px;
+    padding: 10px 24px;
+    border-radius: 30px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    background: linear-gradient(45deg,#ffdd00,#ff0080);
+    color: #000;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(0,0,0,.5);
+    transition: transform 0.2s;
+    /* Prevent text selection on mobile tap */
+    -webkit-tap-highlight-color: transparent; 
+}
+button:active {
+    transform: scale(0.95);
+}
+
+/* --- ANIMATIONS (Flowers, Hearts, Rain) --- */
+.flower, .heart {
+    position:absolute;
+    z-index: 1;
+    pointer-events: none; /* Allows clicking through them */
+}
+.flower {
+    font-size: 20px;
+    animation: fall 10s linear infinite;
+    opacity: 0.8;
+}
+.heart {
+    font-size: 18px;
+    animation: hearts 8s linear infinite;
+}
+
+@keyframes fall{
+    0%{transform:translateY(-10vh) rotate(0deg);opacity:0}
+    20%{opacity:1}
+    100%{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+@keyframes hearts{
+    0%{transform:translateY(110vh);opacity:0}
+    30%{opacity:1}
+    100%{transform:translateY(-10vh);opacity:0}
+}
+
+/* LOVE TEXT RAIN */
+.love-text {
+    position: absolute;
+    top: -50px;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 0 5px #ff0080;
+    white-space: nowrap;
+    z-index: 100;
+    animation: loveRainAnim linear forwards;
+    pointer-events: none;
+}
+
+@keyframes loveRainAnim {
+    0% { transform: translateY(0); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+}
+
+/* --- MEDIA QUERY: Landscape Mode / Very Short Screens --- */
+@media (max-height: 600px) {
+    .card {
+        padding: 10px;
+        flex-direction: row; /* Side by side layout for landscape */
+        flex-wrap: wrap;
+        max-width: 600px;
+    }
+    .photo-box {
+        width: 100px; height: 100px; margin: 5px 15px;
+    }
+    .text-content {
+        flex: 1;
+        text-align: left;
+    }
+    .cake {
+        font-size: 50px;
+        margin: 0 15px;
+    }
+    h1 { font-size: 22px; }
+    p { display: none; } /* Hide paragraph on very short screens to save space */
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<audio id="birthdaySong">
+  <source src="song.m4a" type="audio/mpeg">
+</audio>
+
+<div class="card">
+    <div class="text-content">
+        <h1>Happy Birthday 🎉</h1>
+        <h2>Bestie 💖</h2>
+    </div>
+
+    <div class="photo-box">
+        <img src="1.jpg" alt="Sona">
+    </div>
+
+    <div class="cake">
+        🎂
+        <div class="flame" id="flame">🔥</div>
+    </div>
+
+    <p>
+        May your life bloom with happiness 🌸 <br>
+        Filled with love & smiles ✨ <br>
+        You are truly special 💕
+    </p>
+
+    <button onclick="blowCandle(this)">💨 Blow Candle</button>
+</div>
+
+<script>
+function blowCandle(btnElement){
+    // 1. Hide Flame
+    document.getElementById("flame").style.display="none";
+    
+    // 2. Play Song
+    var audio = document.getElementById("birthdaySong");
+    audio.play().catch(e => console.log("Audio needed user interaction first"));
+
+    // 3. Disable button
+    btnElement.innerText = "Enjoy the rain! 🌧️❤️";
+    btnElement.disabled = true;
+
+    // 4. Start Rain
+    startLoveRain();
+}
+
+function startLoveRain() {
+    setInterval(function() {
+        var love = document.createElement("div");
+        love.classList.add("love-text");
+        
+        // Random Wishes Array
+        const wishes = ["HBD Sona! 🎂", "Stay Happy ✨", "Bestie 💖", "God Bless You 🙏", "Party Time 🥳", "Keep Smiling 😊"];
+
+        love.innerHTML = wishes[Math.floor(Math.random() * wishes.length)];
+        
+        love.style.left = Math.random() * 100 + "vw";
+        love.style.fontSize = (15 + Math.random() * 15) + "px";
+        love.style.animationDuration = (3 + Math.random() * 3) + "s";
+        
+        document.body.appendChild(love);
+
+        setTimeout(function() {
+            love.remove();
+        }, 6000);
+    }, 300);
+}
+
+/* Flowers */
+const flowers=["🌸","🌺","🌼","🌷","💐"];
+function createFlowers() {
+    for(let i=0;i<30;i++){
+        let f=document.createElement("div");
+        f.className="flower";
+        f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+        f.style.left=Math.random()*100+"vw";
+        f.style.animationDelay=Math.random()*10+"s";
+        f.style.animationDuration=8+Math.random()*6+"s";
+        document.body.appendChild(f);
+    }
+}
+createFlowers();
+
+/* Hearts */
+function createHearts() {
+    for(let i=0;i<30;i++){
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💖";
+        h.style.left=Math.random()*100+"vw";
+        h.style.animationDelay=Math.random()*6+"s";
+        h.style.animationDuration=8+Math.random()*6+"s";
+        document.body.appendChild(h);
+    }
+}
+createHearts();
+
+/* Fireworks Logic */
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+
+// Responsive Canvas Size
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+let particles=[];
+function createFirework(){
+    const x=Math.random()*canvas.width;
+    const y=Math.random()*canvas.height/2;
+    const color=`hsl(${Math.random()*360},100%,60%)`;
+    for(let i=0;i<50;i++){
+        particles.push({
+            x,y,
+            dx:(Math.random()-.5)*6,
+            dy:(Math.random()-.5)*6,
+            life:80,
+            color
+        });
+    }
+}
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach((p,i)=>{
+        p.x+=p.dx;
+        p.y+=p.dy;
+        p.life--;
+        ctx.fillStyle=p.color;
+        ctx.fillRect(p.x,p.y,2,2);
+        if(p.life<=0)particles.splice(i,1);
+    });
+    requestAnimationFrame(animate);
+}
+setInterval(createFirework,1200);
+animate();
+</script>
+
+</body>
+</html>
